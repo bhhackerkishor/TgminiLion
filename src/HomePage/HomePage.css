@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ 
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color:black;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+header {
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #FF6B6B;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+.score-container {
+  margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0.4px solid white;
+  border-radius: 100px;
+  width: 200px;
+  
+}
+
+h2 {
+  font-size: 2rem;
+}
+#btn{
+    
+    
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 130px;
+  width: auto;
+  transform: translate(-50%, -50%);
+  
+  background-color: transparent;
+
+  border: 1px solid white;
+    border-radius: 100px;
+    justify-content: center;
+}
+
+
+#LionPng{
+ height: 130px;
+ width: 130px;
+ 
+
+  
+}

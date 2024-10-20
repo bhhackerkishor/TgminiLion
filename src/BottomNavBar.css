@@ -1,0 +1,26 @@
+nav {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #fff;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+
+}
+
+nav a {
+  color: #000;
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav a:hover {
+  background-color: #eee;
+  border-radius: 5px;
+}
+#DivBtn{
+  height: 400px;
+}
