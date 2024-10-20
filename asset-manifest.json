@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/TgminiLion/static/css/main.c074790a.css",
+    "main.js": "/TgminiLion/static/js/main.7c1989ec.js",
+    "static/js/453.ed3810f9.chunk.js": "/TgminiLion/static/js/453.ed3810f9.chunk.js",
+    "static/media/TapLion.png": "/TgminiLion/static/media/TapLion.c2b27dddeab2223ae494.png",
+    "index.html": "/TgminiLion/index.html",
+    "main.c074790a.css.map": "/TgminiLion/static/css/main.c074790a.css.map",
+    "main.7c1989ec.js.map": "/TgminiLion/static/js/main.7c1989ec.js.map",
+    "453.ed3810f9.chunk.js.map": "/TgminiLion/static/js/453.ed3810f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c074790a.css",
+    "static/js/main.7c1989ec.js"
+  ]
+}
