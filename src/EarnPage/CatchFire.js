@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 
 const Game = () => {
-  const [fires, setFires] = useState(generateFires(5)); // Generate 5 fires initially
-  const [padPosition, setPadPosition] = useState(50); // Position of the collector
+  const [items, setItems] = useState(generateItems(5)); // Generate 5 falling meat items initially
+  const [lionPosition, setLionPosition] = useState(50); // Position of the lion
   const [dragging, setDragging] = useState(false); // State to track dragging
   const [timeLeft, setTimeLeft] = useState(45);
   const [score, setScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
 
   useEffect(() => {
-    // Set interval for the falling fire (speed doubled), but only if the game is not over
+    // Set interval for the falling items (speed doubled), but only if the game is not over
     const intervalId = setInterval(() => {
       if (!isGameOver) {
-        setFires((prevFires) => {
-          return prevFires.map((fire) => {
-            if (fire.y >= 100) {
-              // If fire reaches the bottom, reset it
+        setItems((prevItems) => {
+          return prevItems.map((item) => {
+            if (item.y >= 100) {
+              // If item reaches the bottom, reset it
               return { x: Math.random() * 100, y: 0 };
             }
-            return { ...fire, y: fire.y + 2 }; // Move each fire down twice as fast
+            return { ...item, y: item.y + 2 }; // Move each item down twice as fast
           });
         });
       }
-    }, 50); // Interval time reduced to make the fire fall faster
+    }, 50); // Interval time reduced to make the items fall faster
 
     // Set interval for the game timer, but stop when it reaches 0
     const timerId = setInterval(() => {
@@ -46,80 +46,93 @@ const Game = () => {
   // Detect collisions
   useEffect(() => {
     if (!isGameOver) {
-      setFires((prevFires) =>
-        prevFires.map((fire) => {
-          if (fire.y >= 90 && fire.x > padPosition - 10 && fire.x < padPosition + 10) {
+      setItems((prevItems) =>
+        prevItems.map((item) => {
+          if (item.y >= 90 && item.x > lionPosition - 10 && item.x < lionPosition + 10) {
             setScore((score) => score + 1); // Increase score
-            return { x: Math.random() * 100, y: 0 }; // Reset fire position
+            return { x: Math.random() * 100, y: 0 }; // Reset item position
           }
-          return fire;
+          return item;
         })
       );
     }
-  }, [fires, padPosition, isGameOver]);
+  }, [items, lionPosition, isGameOver]);
 
-  // Generate initial fires
-  function generateFires(num) {
-    let firesArray = [];
+  // Generate initial falling items (meat)
+  function generateItems(num) {
+    let itemsArray = [];
     for (let i = 0; i < num; i++) {
-      firesArray.push({ x: Math.random() * 100, y: Math.random() * 50 });
+      itemsArray.push({ x: Math.random() * 100, y: Math.random() * 50 });
     }
-    return firesArray;
+    return itemsArray;
   }
 
-  // Handle mouse down (start dragging)
-  const handleMouseDown = () => {
+  // Handle mouse and touch down (start dragging)
+  const handleStart = (e) => {
     setDragging(true);
+    e.preventDefault(); // Prevent touch scrolling
   };
 
-  // Handle mouse up (stop dragging)
-  const handleMouseUp = () => {
+  // Handle mouse and touch up (stop dragging)
+  const handleEnd = () => {
     setDragging(false);
   };
 
-  // Handle mouse move (update position when dragging)
-  const handleMouseMove = (e) => {
+  // Handle mouse and touch move (update position when dragging)
+  const handleMove = (e) => {
     if (dragging && !isGameOver) {
-      setPadPosition((e.clientX / window.innerWidth) * 100);
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      setLionPosition((clientX / window.innerWidth) * 100);
     }
   };
 
   return (
     <div
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      style={{ height: "100vh",width:"auto", position: "relative", backgroundColor: "black",bottom:"83px" }}
+      onMouseMove={handleMove}
+      onTouchMove={handleMove}
+      onMouseUp={handleEnd}
+      onTouchEnd={handleEnd}
+      style={{ height: "100vh", position: "relative", backgroundColor: "#282c34",backgroundImage, userSelect: "none" ,bottom:"86px"}} // Disable text selection
     >
-      {fires.map((fire, index) => (
+      {items.map((item, index) => (
         <div
           key={index}
           style={{
             position: "absolute",
-            top: `${fire.y}%`,
-            left: `${fire.x}%`,
+            top: `${item.y}%`,
+            left: `${item.x}%`,
             fontSize: "30px",
-            userSelect:"none"
+            userSelect: "none", // Disable selecting items
           }}
         >
-          🍎
+          🍖
         </div>
       ))}
       <div
-        onMouseDown={handleMouseDown}
+        onMouseDown={handleStart}
+        onTouchStart={handleStart}
         style={{
           position: "absolute",
           bottom: "0",
-          left: `${padPosition}%`,
+          left: `${lionPosition}%`,
           width: "100px",
-          height: "20px",
-          backgroundColor: "blue",
+          height: "85px",
+          backgroundColor: "transparent",
           cursor: "pointer",
-          userSelect:"none"
+          userSelect: "none", // Disable selecting the lion pad
+          fontSize: "70px"
+          ,
         }}
-      >collector</div>
-      <div style={{ position: "absolute", top: 83, left: 0, color: "white" }}>Time Left: {timeLeft}s</div>
-      <div style={{ position: "absolute", top: 83, right: 0, color: "white" }}>Score: {score}</div>
-      {isGameOver && <div style={{ position: "absolute", top: "50%", left: "50%", color: "white" }}>Game Over</div>}
+      >
+        🦁
+      </div>
+      <div style={{ position: "absolute", top: 84, left: 0, color: "gold" ,fontFamily:"ariel",fontSize:"20px"}}>Time Left: {timeLeft}s</div>
+      <div style={{ position: "absolute", top: 84, right: 0, color: "gold" ,fontFamily:"ariel",fontSize:"20px" }}>Score: {score}</div>
+      {isGameOver && (
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "white", fontSize: "36px" }}>
+          Game Over
+        </div>
+      )}
     </div>
   );
 };
